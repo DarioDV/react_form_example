@@ -10,22 +10,28 @@ class App extends Component {
     { Name : '', 
       LastName : '', 
       Name_Last : ''};
+  
+  this.handleNameChange = this.handleNameChange.bind(this);
+  this.handleLastNameChange= this.handleLastNameChange.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this); 
   }
+  
   handleNameChange(event){
     this.setState({Name: event.target.value});
   }
   handleLastNameChange(event){
     this.setState({LastName: event.target.value});
   }
-  handleNameCognome(){
+  handleSubmit(event){
     var fullName = this.state.Name + ' ' + this.state.LastName;
-    this.setState({Name_Last : fullName});   
-    values.push(fullName);   
+    this.setState({Name_Last : fullName});
+    values = values.concat(fullName);
     console.log({values});
+    event.preventDefault();
   }
 
   render() { 
-    let listItems = values.map((values) => <p>{values}</p>);
+    let listItems = values.map((values) => <li>{values}</li>);
    
   return (
   <div className="App">
@@ -34,22 +40,25 @@ class App extends Component {
       </header>
       <h2>Please, insert your data.. </h2>
         <hr/>
-        <p>
-        <label>Name:   </label>
-        <input type="text" value = {this.state.Name} onChange={this.handleNameChange.bind(this)}/>
+        <form onSubmit={this.handleSubmit} >
+          <label>
+            Name: 
+          <input type="text" value = {this.state.Name} onChange={this.handleNameChange}/>
+          </label>
         <br/>
-        </p>
-        <p>
-        <label>Last Name: </label>
-        <input type="text" value = {this.state.LastName} onChange={this.handleLastNameChange.bind(this)}/>
+          <label>
+            Last Name: 
+            <input type="text" value = {this.state.LastName} onChange={this.handleLastNameChange}/>
+          </label>
         <br/>
-        </p>
-        <button type="button" title="Invia" onClick={this.handleNameCognome.bind(this)}>Invia i dati</button> 
+        <input type="submit" value="Submit" />
+        </form>
+
         <hr/>   
         <h3>Hi ...  {this.state.Name_Last}, Welcome ! </h3>
                 <hr/>
                 <br/>
-                <h3>Previous users' list {listItems}</h3>
+                <ul>Previous users' list {listItems}</ul>
   </div>
     );
   }
