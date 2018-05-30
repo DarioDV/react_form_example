@@ -1,37 +1,37 @@
 import React, { Component } from 'react';
 import './App.css';
 
-let values = [];
+let users = [];
 class App extends Component { 
   constructor(props) {
     super(props);
   //default state 
     this.state = 
-    { Name : '', 
-      LastName : '', 
-      Name_Last : ''};
+    { 
+      name : '', 
+      surname : '' 
+     };
   
-  this.handleNameChange = this.handleNameChange.bind(this);
-  this.handleLastNameChange= this.handleLastNameChange.bind(this);
+  this.handleChange = this.handleChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this); 
   }
   
-  handleNameChange(event){
-    this.setState({Name: event.target.value});
-  }
-  handleLastNameChange(event){
-    this.setState({LastName: event.target.value});
-  }
+  handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({ [name]: value }); 
+   }
+
   handleSubmit(event){
-    var fullName = this.state.Name + ' ' + this.state.LastName;
-    this.setState({Name_Last : fullName});
-    values = values.concat(fullName);
-    console.log({values});
     event.preventDefault();
+    const fullName = this.state.name + ' ' + this.state.surname;
+    users = [...users, fullName]; // spread operator
+    this.setState({name: '', surname: ''}); //clear
+    console.log({users}); //console log   
   }
 
   render() { 
-    let listItems = values.map((values) => <li>{values}</li>);
+    let listItems = users.map((users) => <li>{users}</li>);
    
   return (
   <div className="App">
@@ -43,12 +43,12 @@ class App extends Component {
         <form onSubmit={this.handleSubmit} >
           <label>
             Name: 
-          <input type="text" value = {this.state.Name} onChange={this.handleNameChange}/>
+          <input type="text" name="name" value = {this.state.Name} onChange={this.handleChange}/>
           </label>
         <br/>
           <label>
             Last Name: 
-            <input type="text" value = {this.state.LastName} onChange={this.handleLastNameChange}/>
+            <input type="text" name="surname" value = {this.state.LastName} onChange={this.handleChange}/>
           </label>
         <br/>
         <input type="submit" value="Submit" />
