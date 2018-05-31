@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 
-let users = [];
 class App extends Component { 
   constructor(props) {
-    super(props);
-  //default state 
-    this.state = 
-    { 
+    super(props); 
+   } 
+   state = 
+    { users: [],
       name : '', 
-      surname : '' 
+      surname : ''
      };
-  
-  this.handleChange = this.handleChange.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this); 
-  }
   
   handleChange = (event) => {
     const name = event.target.name;
@@ -22,43 +17,42 @@ class App extends Component {
     this.setState({ [name]: value }); 
    }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
     event.preventDefault();
     const fullName = this.state.name + ' ' + this.state.surname;
-    users = [...users, fullName]; // spread operator
-    this.setState({name: '', surname: ''}); //clear
-    console.log({users}); //console log   
+    const Updatefullnames = [...this.state.users,fullName];
+    this.setState({users: Updatefullnames, name: '', surname: ''});
+    console.log({Updatefullnames}); //console log   
   }
 
   render() { 
-    let listItems = users.map((users) => <li>{users}</li>);
-   
+    const fullnames = this.state.users.map((user) => <li>{user}</li>);
+
   return (
   <div className="App">
-      <header className="App-header">
+    <header className="App-header">
       <h1 >Welcome on User List </h1>
-      </header>
+    </header>
       <h2>Please, insert your data.. </h2>
         <hr/>
-        <form onSubmit={this.handleSubmit} >
-          <label>
+          <form onSubmit={this.handleSubmit} >
+            <label>
             Name: 
-          <input type="text" name="name" value = {this.state.Name} onChange={this.handleChange}/>
-          </label>
-        <br/>
-          <label>
+            <input type="text" name="name" value = {this.state.name} onChange={this.handleChange}/>
+            </label>
+            <br/>
+            <label>
             Last Name: 
-            <input type="text" name="surname" value = {this.state.LastName} onChange={this.handleChange}/>
-          </label>
-        <br/>
-        <input type="submit" value="Submit" />
-        </form>
-
+            <input type="text" name="surname" value = {this.state.surname} onChange={this.handleChange}/>
+            </label>
+            <br/>
+            <input type="submit" value="Submit" />
+          </form>
         <hr/>   
-        <h3>Hi ...  {this.state.Name_Last}, Welcome ! </h3>
-                <hr/>
-                <br/>
-                <ul>Previous users' list {listItems}</ul>
+      <h3>Hi ...  {this.state.users[this.state.users.length -1]}, Welcome ! </h3>
+      <hr/>
+      <br/>
+      <ul>Previous users' list {fullnames}</ul>
   </div>
     );
   }
